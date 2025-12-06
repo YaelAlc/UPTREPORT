@@ -1,0 +1,9 @@
+Flask
+Flask-Bcrypt
+pymongo
+sendgrid
+itsdangerous
+bson
+fpdf
+Pillow
+gunicorn

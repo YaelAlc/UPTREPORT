@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Página Principal</title>
+    <link rel="stylesheet" href="../static/index.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap" rel="stylesheet">
+
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <header>
+        <!--NOTIFICACIONES, FALTA POR AGRAGAR-->   
+        <nav class="navbar">
+            <div class="navbar-brand">
+                <h1>Bienvenido, {{ usuario }}!</h1>
+            </div>
+            <ul class="navbar-menu">
+                <li><a href="/pagina_principal">INICIO</a></li>
+                <li class="dropdown">
+                    <a href="javascript:void(0)" class="dropbtn">{{ usuario[0].upper() }}</a>
+                    <div class="dropdown-content">
+                        <a href="/mi_perfil">
+                            <i class="fas fa-user"></i> Mi Perfil
+                        </a>
+                        <a href="/logout">  
+                            <i class="fas fa-sign-out-alt"></i> Cerrar sesión
+                        </a>
+                        <a href="/notificaciones">
+                            <i class="fas fa-bell"></i> Notificaciones
+                        </a>
+                    </div>
+                </li>
+            </ul>
+            <button class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </nav>
+        <!--LO MISMO DE ARRIBA PERO PARA CELULARES-->
+        <div class="mobile-menu hidden">
+            <a href="/mi_perfil">
+                <i class="fas fa-user"></i> Mi Perfil
+            </a>
+            <a href="/logout">
+                <i class="fas fa-sign-out-alt"></i> Cerrar sesión
+            </a>
+        </div>
+    </header>
+
+
+    <!--AGREGAR TODO LO DE LA PAGINA EN GENERAL-->
+    <main class="main-container">
+        <div class="Logo">
+            <img src="{{ url_for('static', filename='image.png') }}" alt="Logo de la app">
+        </div>
+
+        <div class="encabezado">
+            <h1>REPORTE</h1>
+            <h2>REPORTE COMPLETADO SATISFACTORIAMENTE</h2>
+        </div>
+
+        <div id="mensaje-enviado" style="display: none; background-color: #d4edda; color: #155724; padding: 10px; border: 1px solid #c3e6cb; border-radius: 5px; margin-bottom: 15px; font-weight: bold;">
+            ✅ La información se envió correctamente, revise la esquina superior derecha EN EL APARTADO DE NOTIFICACIONES para ver el esatado de su reporte 
+        </div>
+        
+        <script>
+                const mensaje = document.getElementById('mensaje-enviado');
+                mensaje.style.display = 'block';
+
+                // Ocultar después de 4 segundos (opcional)
+                setTimeout(() => {
+                    mensaje.style.display = 'none';
+                }, 2500);
+        </script>
+
+
+        <!--CAMPOS DE REPORTE-->
+        <form class="index-form" id="miFormulario" action="/pagina_principal" method="post" enctype="multipart/form-data">
+            
+            <div class="name-contenedor">
+                <div class="form-report">
+                    <label for="nombre">Nombre Completo:</label>
+                    <input type="text" name="nombre" id="nombre" placeholder="Escribe tu nombre" required>
+                </div>
+            </div>    
+
+            <div class="matricula-contenedor">
+                <div class="form-report">
+                    <label for="matricula" class="label-pre">Matrícula:                </label>
+                    <input type="number"  name="matricula" id="matricula" placeholder="Matrícula" min="0" step="1"  minlength="10" maxlength="10" required>
+                </div>
+            </div>   
+
+            <div class="grupo-contenedor">
+                <div class="form-report">
+                    <label for="grupo" class="label-pre">Grupo:                      </label>
+                    <input type="text" name="grupo" id="grupo" placeholder="Grupo" required>
+                </div>
+            </div> 
+            
+
+            <!--EMPIEZA EL CAOS---------------------->
+            <!--EMPIEZA EL CAOS---------------------->
+            <!--EMPIEZA EL CAOS---------------------->
+            <!--EMPIEZA EL CAOS---------------------->
+            <!--EMPIEZA EL CAOS---------------------->
+            
+            <div class="edificio-contenedor">
+                <div class="form-report">
+                    <label for="pais" class="label-pre">Edificio:                    </label>
+                    <select name="pais" id="pais" class="select-edificio"onchange="actualizarCiudades()" required>
+                        <option value="" disabled selected>Selecciona un Edificio</option>
+                        <option value="uno">UNO</option>
+                        <option value="dos">DOS</option>
+                        <option value="tres">TRES</option>
+                        <option value="queso">Centro de Ingeniería Avanzada</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="edificio-contenedor">
+                <div class="form-report">
+                    <label for="ciudad" class="label-pre">Salón:                      </label>
+                    <select name="ciudad" id="ciudad" class="select-edificio" required>
+                        <option value="" disabled selected>Selecciona un Salón o Lugar</option>
+                    </select>
+                </div>
+            </div>
+
+            <script>
+                const ciudadesPorPais = {
+                    uno: ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16","auditorio","idiomas 1","Finanzas","Negocios","Sala de juntas","Departamento de información"],
+                    dos: ["17","20", "21","22","23","24","25","28","29","30","31","32","33","Monitoreo de Universidad Segura","Jefatura de Vinculación","Ídiomas 4","Enfermería","Extención Extracurricular","Centro de Negocios","Coordinación de Íngles","Control Escolar","Tutorías Asesorías","Dirección de Ingenierías","Área de Desarrollo de Software","Electrónica","Tecnologías de manufactura","Sala de muestras","Química","Gimnasio","Idiomas 3" ],
+                    tres: ["34", "35", "36", "37", "38", "39", "40", "41", "42", "43", "44", "45", "46", "47", "48", "49", "50","Site 4","Biblioteca","Gimnasio 2","Software 1","Observatorio Empresarial Universitario","Abogacia","Nodo UPT ANIERN","Dirección Licenciatura","Laboratorio de Software 2"],
+                    queso: ["Investigacion","CAD CAM","Metrologia","CIM","Maquinas y Herramientas","Macanica Automotriz","Proyectos de Ingenieria","Hidraulica y Neumatica","Sala de Reuniones,","Laboratorio de TICS","Desarrollo de Formulacion de Proyectos","Desrrollo de Formulacion de Programacion","Unidades Economicas"],
+                };
+
+                function actualizarCiudades() {
+                    const pais = document.getElementById("pais").value;
+                    const ciudadSelect = document.getElementById("ciudad");
+
+                    // Limpiar opciones anteriores
+                    ciudadSelect.innerHTML = "<option value='' disable selected>Selecciona un Salón o Lugar</option>";
+
+                    if (ciudadesPorPais[pais]) {
+                        ciudadesPorPais[pais].forEach(ciudad => {
+                            const opcion = document.createElement("option");
+                            opcion.value = ciudad.toLowerCase().replace(/ /g, "_");
+                            opcion.text = ciudad;
+                            ciudadSelect.add(opcion);
+                        });
+                    }
+                }
+            </script>
+
+            <!--TERMINA EL CAOS---------------------->
+            <!--TERMINA EL CAOS---------------------->
+            <!--TERMINA EL CAOS---------------------->
+            <!--TERMINA EL CAOS---------------------->
+
+
+            <div class="incidencia-contenedor">
+                <div class="form-report">
+                    <label for="incidencia">Tipo de Incidencía:(Daño,Limpieza,Fallos) </label>
+                    <input type="text" name="incidencia" id="incidencia" placeholder="Tipo" required>
+                </div>
+            </div>
+
+            <div class="contenedor-descripcion">
+                <div class="intrucciones-img">
+                    <h3> Realiza una breve descripción del incidente y adjunta una evidencia</h3>
+                </div>
+
+                <div class="form-report-a">
+                    <input type="text" name="descripcion" id="descripcion" maxlength="150" placeholder="Descipción de la incidencia" oninput="mostrarCaracteres()" required>
+                    <p id="contador">0 / 150</p>
+
+                    <script>
+                        function mostrarCaracteres() {
+                        const input = document.getElementById('descripcion');
+                        const contador = document.getElementById('contador');
+                        contador.textContent = `${input.value.length} / ${input.maxLength}`;
+                        }
+                    </script>
+                </div>
+            </div>
+
+            <div class="incidencia-contenedor">
+                <div class="form-report">
+                    <label for="fecha">Fecha:</label>
+                    <input type="text" name="fecha" id="fecha" placeholder="Tipo" required>
+                </div>
+            </div>
+
+            
+
+
+            <label for="evidencia" class="boton-adjuntar">Adjuntar evidencia (PNG o JPG)</label>
+            <input type="file" name="evidencia" id="evidencia" accept="image/*" class="input-oculto" required>
+            <input type="submit" value="Enviar" class="boton-enviar">
+
+            
+
+
+    
+
+            <!-- Contenedor donde se mostrará la imagen seleccionada -->
+            <div id="preview-container" class="antes">
+                <img id="preview-imagen" src="#" alt="Vista previa" style="display:none; max-width: 100%; max-height: 300px; margin-top: 10px;">
+            </div>
+
+            <script>
+                document.getElementById('evidencia').addEventListener('change', function(event) {
+                    const archivo = event.target.files[0];
+
+                    if (archivo && archivo.type.startsWith('image/')) {
+                        const lector = new FileReader();
+                        lector.onload = function(e) {
+                            const preview = document.getElementById('preview-imagen');
+                            preview.src = e.target.result;
+                            preview.style.display = 'block';
+                        }
+                        lector.readAsDataURL(archivo);
+                    } else {
+                        // Oculta la imagen si no es válida
+                        document.getElementById('preview-imagen').style.display = 'none';
+                    }
+                });
+            </script>
+
+        </form>
+    
+    </main>
+    
+<!--FOOTER BORRADO POR EL BIEN DE LA TRAMA, EN PROGRESO LA POSICION-->
+
+    <script>
+        // Toggle mobile menu visibility
+        const hamburger = document.querySelector('.hamburger');
+        const mobileMenu = document.querySelector('.mobile-menu');
+
+        hamburger.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+    </script>
+</body>
+</html>

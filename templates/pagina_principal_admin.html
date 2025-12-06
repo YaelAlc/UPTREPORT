@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+<head>
+  <meta charset="UTF-8">
+  <title>Cambiar Estado de Incidencias</title>
+  <style>
+    form {
+      margin-bottom: 1rem;
+      padding: 1rem;
+      border: 1px solid #ccc;
+      max-width: 600px;
+      margin: 1rem auto;
+      border-radius: 6px;
+    }
+    select, button {
+      padding: 5px;
+    }
+  </style>
+</head>
+<body>
+  <h1 style="text-align:center;">Cambiar Estado</h1>
+
+  {% for item in incidencias %}
+    <form method="POST">
+      <p><strong>{{ item.incidencia }}</strong> (Estado actual: {{ item.estado or 'Pendiente' }})</p>
+      <input type="hidden" name="id" value="{{ item._id }}">
+      <select name="estado">
+        <option value="Pendiente" {% if item.estado == 'Pendiente' %}selected{% endif %}>Pendiente</option>
+        <option value="En proceso" {% if item.estado == 'En proceso' %}selected{% endif %}>En proceso</option>
+        <option value="Resuelto" {% if item.estado == 'Resuelto' %}selected{% endif %}>Resuelto</option>
+      </select>
+      <button type="submit">Actualizar</button>
+    </form>
+  {% else %}
+    <p style="text-align:center;">No hay incidencias aún.</p>
+  {% endfor %}
+
+  <div style="text-align:center; margin-top:2rem;">
+    <a href="{{ url_for('login_admin') }}">Volver</a>
+  </div>
+
+
+
+</body>
+</html>
